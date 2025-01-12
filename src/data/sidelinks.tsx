@@ -54,17 +54,17 @@ export const sidelinks: SideLink[] = [
   },
   {
     title: 'Entreprises',
-    href: '/users',
+    href: '/companies',
     icon: <EntrepriseIcon height={18} width={18} />,
   },
   {
     title: 'Abonnés',
-    href: '/agencies',
+    href: '/subscribers',
     icon: <SubscriberIcon height={18} width={18} />,
   },
   {
     title: 'Annonces',
-    href: '/agencies',
+    href: '/ads',
     icon: <AdsIcon height={18} width={18} />,
   },
   {

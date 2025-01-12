@@ -1,14 +1,14 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from './data-table-column-header'
-import { Chequebook } from '../data/schema'
+import {  Company } from '../data/schema'
 import { formatDatetime } from "@/lib/utils"
 import { CustomDialog } from './custom-dialog'
 import { PrintButton } from '@/components/print-button'
 
 
 
-type CustomColumnDef = ColumnDef<Chequebook> & {
+type CustomColumnDef = ColumnDef<Company> & {
       visible?:boolean;
 }
 export const columns: CustomColumnDef[] = [
@@ -16,18 +16,18 @@ export const columns: CustomColumnDef[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Bureau' />
+      <DataTableColumnHeader column={column} title='Entreprise' />
     ),
     cell: ({ row }) => <div className='w-60'>{row.getValue('name')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'chief',
+    accessorKey: 'email',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Chef du bureau' />
+      <DataTableColumnHeader column={column} title='Email' />
     ),
-    cell: ({ row }) => <div className='w-32'>{row.getValue('chief')}</div>,
+    cell: ({ row }) => <div className='w-32'>{row.getValue('email')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -43,18 +43,18 @@ export const columns: CustomColumnDef[] = [
   {
     accessorKey: 'image',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Image' className='max-w-12' />
+      <DataTableColumnHeader column={column} title='Logo' className='max-w-12' />
     ),
     cell: ({ row }) => <img src={`${import.meta.env.VITE_API_URL}/public/${row.getValue('image')}`} className="h-8 rounded-full  "></img>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'place',
+    accessorKey: 'adsPages',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Lieu' className='w-32' />
+      <DataTableColumnHeader column={column} title='Pages des annonces' className='w-32' />
     ),
-    cell: ({ row }) => <div>{row.getValue('place')}</div>,
+    cell: ({ row }) => <div>{row.getValue('adsPages').replace(";",",")}</div>,
     enableSorting: false,
     enableHiding: false,
   },

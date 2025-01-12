@@ -1,10 +1,10 @@
-const basePath = "http://localhost:3000";
+const basePath = import.meta.env.VITE_API_URL;
 const token =  localStorage.getItem("token");
 
 
 const commonHeaders = {
-    "Authorization": `Bearer ${token}`,
-    "Content-Type": 'application/json'
+    // "Authorization": `Bearer ${token}`,
+    // "Content-Type": 'application/json'
 }
 const api = {
   get: (endpoint : string) => fetch(`${basePath}/${endpoint}`,{
@@ -17,6 +17,13 @@ const api = {
       headers: commonHeaders,
       body: body && JSON.stringify(body),
     }),
+    postObj: (endpoint : string, body : Object) =>
+      fetch(`${basePath}/${endpoint}`, {
+        method: "POST",
+        headers: {...commonHeaders
+        },
+        body: body,
+      }),
   put: (endpoint : string, body : Object) =>
     fetch(`${basePath}/${endpoint}`, {
       method: "PUT",

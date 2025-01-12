@@ -36,21 +36,27 @@ const router = createBrowserRouter([
         }),
       },
       {
-        path: 'users',
+        path: 'companies',
         lazy: async () => ({
-          Component: (await import('@/pages/users/index.tsx')).default,
+          Component: (await import('@/pages/companies/index.tsx')).default,
         }),
       },
       {
-        path: 'agencies',
+        path: 'subscribers',
         lazy: async () => ({
-          Component: (await import('@/pages/agencies/index.tsx')).default,
+          Component: (await import('@/pages/subscribers/index.tsx')).default,
         }),
       },
       {
         path: 'services',
         lazy: async () => ({
           Component: (await import('@/pages/services/index.tsx')).default,
+        }),
+      },
+      {
+        path: 'ads',
+        lazy: async () => ({
+          Component: (await import('@/pages/ads/index.tsx')).default,
         }),
       }
     ],

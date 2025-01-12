@@ -22,20 +22,31 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { range } from "@/lib/utils"
 import { useState } from "react"
 import { api } from "@/adapters/api"
+import { MultiSelect } from "@/components/multi-select"
 
 
 const formSchema = z.object({
     name: z.string(),
-    chief: z.string(),
     phone: z.string(),
     image: z.string(),
     email: z.string(),
-    matricule: z.string()
 })
-
+export const frameworksList = [
+    { value: "home", label: "Acceuil",  },
+    { value: "services", label: "Services",  },
+    { value: "annuary", label: "Annuaire"},
+    { value: "terrassement", label: "Terrassement" },
+    { value: "construction", label: "Construction gros oeuvres" },
+    { value: "electricity", label: "Électricité et luminaires" },
+    { value: "carpentry", label: "Menuiserie" },
+    { value: "plumbing", label: "Plomberie" },
+    { value: "firefighting", label: "Lutte contre les incendies" },
+    { value: "tiles", label: "Carrelage - Revêtement" },
+    { value: "painting", label: "Peinture et decoration" },
+    { value: "airconditioning", label: "conditionnement d'air" }
+  ];
 interface DialogProps<> {
     submitEndPoint: string
 }
@@ -43,7 +54,7 @@ export function CustomDialog({ submitEndPoint }: DialogProps) {
     const [open, setOpen] = useState(false)
     const [file, setFile] = useState();
     const [fileObj, setFileObj] = useState();
-
+    const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
     const [error, setError] = useState(false);
     async function handleChange(e,field) {
         field.onChange(`annuary/${e.target.files[0].name}`);
@@ -99,8 +110,8 @@ export function CustomDialog({ submitEndPoint }: DialogProps) {
         //     cache: 'no-store'
         // });   
 
-        await uploadImage(file,"annuary");
-        await api.post("offices", values);
+        await uploadImage(file,"entreprise");
+        await api.post("companies", {...values, adsPages:selectedFrameworks.join(";")});
 
         setOpen(false);
         form.reset();
@@ -108,14 +119,14 @@ export function CustomDialog({ submitEndPoint }: DialogProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="bg-primary rounded-3xl w-48 flex justify-between">
-                    <span>Nouvel Bureaux</span>
+                <Button className="bg-primary rounded-3xl w-64 flex justify-between">
+                    <span>Ajouter une nouvelle entreprise</span>
                     <span className="font-bold text-xl">+</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Ajout d'un bureau</DialogTitle>
+                    <DialogTitle>Ajout d'une entreprise</DialogTitle>
                     <DialogDescription>
                     </DialogDescription>
                 </DialogHeader>
@@ -128,7 +139,7 @@ export function CustomDialog({ submitEndPoint }: DialogProps) {
                             name="name"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-right">Nom du bureau</FormLabel>
+                                    <FormLabel className="text-right">Nom l'entreprise</FormLabel>
                                     <FormControl>
                                         <>
                                         <Input  className="col-span-3" placeholder="" {...field} />
@@ -138,25 +149,12 @@ export function CustomDialog({ submitEndPoint }: DialogProps) {
                                 </FormItem>
                             )}
                         />
-                        <FormField
+                  <FormField
                             control={form.control}
-                            name="chief"
+                            name="email"
                             render={({ field }) => (
                                 <FormItem >
-                                    <FormLabel className="text-right">Nom du chef</FormLabel>
-                                    <FormControl>
-                                        <Input className="col-span-3" placeholder="" {...field} />
-                                    </FormControl>
-                                    <FormMessage className="col-span-3" />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="matricule"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-right">matricule</FormLabel>
+                                    <FormLabel className="text-right">Email</FormLabel>
                                     <FormControl>
                                         <Input className="col-span-3" placeholder="" {...field} />
                                     </FormControl>
@@ -177,19 +175,7 @@ export function CustomDialog({ submitEndPoint }: DialogProps) {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormLabel className="text-right">Email</FormLabel>
-                                    <FormControl>
-                                        <Input className="col-span-3" placeholder="" {...field} />
-                                    </FormControl>
-                                    <FormMessage className="col-span-3" />
-                                </FormItem>
-                            )}
-                        />
+          
                                  <FormField
                             control={form.control}
                             name="image"
@@ -206,7 +192,16 @@ export function CustomDialog({ submitEndPoint }: DialogProps) {
                                 </FormItem>
                             )}
                         />
-                        
+              
+                              <MultiSelect
+        options={frameworksList}
+        onValueChange={setSelectedFrameworks}
+        defaultValue={selectedFrameworks}
+        placeholder="Les pages des annonces"
+        variant="inverted"
+        animation={2}
+        maxCount={3}
+      />
                         {/* <Label htmlFor="name" className="text-right">
               Pages
             </Label>

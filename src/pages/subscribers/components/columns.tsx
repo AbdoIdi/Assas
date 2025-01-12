@@ -1,14 +1,15 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from './data-table-column-header'
-import { Chequebook } from '../data/schema'
 import { formatDatetime } from "@/lib/utils"
 import { CustomDialog } from './custom-dialog'
 import { PrintButton } from '@/components/print-button'
+import { CustomDialogEdit } from './custom-dialog-edit'
+import { Provider } from '../data/schema'
 
 
 
-type CustomColumnDef = ColumnDef<Chequebook> & {
+type CustomColumnDef = ColumnDef<Provider> & {
       visible?:boolean;
 }
 export const columns: CustomColumnDef[] = [
@@ -16,45 +17,64 @@ export const columns: CustomColumnDef[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Bureau' />
+      <DataTableColumnHeader column={column} title='Nom et Prénom' />
     ),
-    cell: ({ row }) => <div className='w-60'>{row.getValue('name')}</div>,
+    cell: ({ row }) => <div className='w-32'>{row.getValue('name')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'chief',
+    accessorKey: 'specialityName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Chef du bureau' />
+      <DataTableColumnHeader column={column} title='Adjectif' />
     ),
-    cell: ({ row }) => <div className='w-32'>{row.getValue('chief')}</div>,
+    cell: ({ row }) => <div className='w-40'>{row.getValue('specialityName')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'phone',
+    accessorKey: 'email',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Numéro de téléphone' className='max-w-36' />
+      <DataTableColumnHeader column={column} title='Email' className='max-w-36' />
     ),
-    cell: ({ row }) => <div>{row.getValue('phone')}</div>,
+    cell: ({ row }) => <div>{row.getValue('email')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'image',
+    accessorKey: 'phoneNumber',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Image' className='max-w-12' />
+      <DataTableColumnHeader column={column} title='téléphone' className='max-w-36' />
     ),
-    cell: ({ row }) => <img src={`${import.meta.env.VITE_API_URL}/public/${row.getValue('image')}`} className="h-8 rounded-full  "></img>,
+    cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'place',
+    accessorKey: 'avatar',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Image' className='max-w-36' />
+    ),
+    cell: ({ row }) => <img src={`${import.meta.env.VITE_API_URL}/public/${row.getValue('avatar')}`} className="h-8 rounded-full  "></img>
+    ,
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'Lieu',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Lieu' className='w-32' />
     ),
     cell: ({ row }) => <div>{row.getValue('place')}</div>,
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'edit',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='' className='max-w-12' />
+    ),
+    cell: ({ row }) => <CustomDialogEdit provider={row.original}/>,
     enableSorting: false,
     enableHiding: false,
   },

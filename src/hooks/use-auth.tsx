@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode'
 export const useAuth = () => {
     const signIn = async (username:string,password:string) => {
 
-        const dynamicData =  await fetch(`http://localhost:9999/api/auth/login`, {
+        const dynamicData =  await fetch(`http://localhost:3000/login`, {
             method:"POST",
             headers: {
                 "Content-Type":"application/json",
