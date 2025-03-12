@@ -6,6 +6,7 @@ import { Provider } from '../data/schema'
 import { CustomDialogEdit } from './custom-dialog-edit'
 import { DataTableColumnHeader } from './data-table-column-header'
 import React from 'react'
+import { CustomDialog } from './custom-dialog'
 
 
 
@@ -16,60 +17,69 @@ const deleteRow = async (id: number, table: any) => {
   await api.delete(`providers/${id}`)
 }
 export const columns: CustomColumnDef[] = [
-
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Nom et Prénom' />
+      <DataTableColumnHeader column={column} title='Name' />
     ),
     cell: ({ row }) => <div className='w-32'>{row.getValue('name')}</div>,
-    enableSorting: false,
+    enableSorting: true,
     enableHiding: false,
   },
   {
-    accessorKey: 'specialityName',
+    accessorKey: 'active',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Adjectif' />
+      <DataTableColumnHeader column={column} title='Status' />
     ),
-    cell: ({ row }) => <div className='w-40'>{row.getValue('specialityName')}</div>,
-    enableSorting: false,
+    cell: ({ row }) => (
+      <div className={`${row.getValue('active') ? 'text-green-600' : 'text-red-600'}`}>
+        {row.getValue('active') ? 'Active' : 'Inactive'}
+      </div>
+    ),
+    enableSorting: true,
     enableHiding: false,
   },
   {
-    accessorKey: 'email',
+    accessorKey: 'validFrom',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Email' className='max-w-36' />
+      <DataTableColumnHeader column={column} title='Valid From' />
     ),
-    cell: ({ row }) => <div>{row.getValue('email')}</div>,
-    enableSorting: false,
+    cell: ({ row }) => (
+      <div>{new Date(row.getValue('validFrom')).toLocaleDateString()}</div>
+    ),
+    enableSorting: true,
     enableHiding: false,
   },
   {
-    accessorKey: 'phoneNumber',
+    accessorKey: 'validTo',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='téléphone' className='max-w-36' />
+      <DataTableColumnHeader column={column} title='Valid To' />
     ),
-    cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
-    enableSorting: false,
+    cell: ({ row }) => (
+      <div>{new Date(row.getValue('validTo')).toLocaleDateString()}</div>
+    ),
+    enableSorting: true,
     enableHiding: false,
   },
   {
-    accessorKey: 'avatar',
+    accessorKey: 'companyName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Image' className='max-w-36' />
+      <DataTableColumnHeader column={column} title='Nom de la société' />
     ),
-    cell: ({ row }) => <img src={`${import.meta.env.VITE_API_URL}/public/${row.getValue('avatar')}`} className="h-8 rounded-full  "></img>
-    ,
-    enableSorting: false,
+    cell: ({ row }) => <div>{row.getValue('companyName')}</div>,
+    enableSorting: true,
     enableHiding: false,
   },
   {
-    accessorKey: 'Lieu',
+    accessorKey: 'adsPages',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Lieu' className='w-32' />
+      <DataTableColumnHeader column={column} title='Ads Pages' />
     ),
-    cell: ({ row }) => <div>{row.getValue('place')}</div>,
-    enableSorting: false,
+    cell: ({ row }) => {
+      const adsPages = row.getValue('adsPages');
+      return <div>{adsPages.substring(0, 20)}</div>;
+    },
+    enableSorting: true,
     enableHiding: false,
   },
   {
@@ -77,30 +87,19 @@ export const columns: CustomColumnDef[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='' className='max-w-12' />
     ),
-    cell: ({ row }) => <CustomDialogEdit provider={row.original} />,
+    cell: ({ row }) => <CustomDialog selectedRow={row.original} />,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'edit',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='' className='max-w-12' />
-    ),
-    cell: ({ row }) => <button className="text-green-600 hover:text-green-500 font-semibold py-2 px-4">
-      Modifier
-    </button>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'edit',
+    accessorKey: 'delete',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='' className='max-w-12' />
     ),
     cell: ({ row, table }) => (
       <AlertDialogComponent handleConfirmed={() => deleteRow(row.original.id, table)}>
         <button className="text-red-600 hover:text-red-400 font-semibold py-2 px-4">
-          Supprimer
+          Delete
         </button>
       </AlertDialogComponent>
     ),

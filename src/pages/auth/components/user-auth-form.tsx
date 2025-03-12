@@ -52,10 +52,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setIsLoading(true)
     auth.signIn(data.username,data.password)
     .then(res=>{
-      console.log(res)
-
       if(res){
-        navigate("/chequebooks")
+        navigate("/")
         return
       }
       setAuthError(true);

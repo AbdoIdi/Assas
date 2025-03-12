@@ -1,3 +1,4 @@
+import { api } from "@/adapters/api"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -8,23 +9,19 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
+    FormMessage
 } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
-import { api } from "@/adapters/api"
-import { MultiSelect } from "@/components/multi-select"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 
 const formSchema = z.object({
@@ -40,8 +37,8 @@ export function CustomDialog({ submitEndPoint }: DialogProps) {
     const [open, setOpen] = useState(false)
     const [file, setFile] = useState();
     const [fileObj, setFileObj] = useState();
-    const [selectedFrameworks, setSelectedFrameworks] = useState<string[]>([]);
-    const [error, setError] = useState(false);
+    const [setError] = useState(false);
+    
     async function handleChange(e,field) {
         field.onChange(`services-icons/${e.target.files[0].name}`);
 

@@ -1,20 +1,17 @@
+import { api } from "@/adapters/api"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
+    DialogTrigger
 } from "@/components/ui/dialog"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { range } from "@/lib/utils"
 import { useState } from "react"
+import { z } from "zod"
 import { Provider } from "../data/schema"
-import { api } from "@/adapters/api"
+import React from "react"
 
 
 const formSchema = z.object({
@@ -32,9 +29,9 @@ export function CustomDialogEdit({ provider }: DialogProps) {
     const [open, setOpen] = useState(false)
 
 
-    async function onSubmit(isValid:boolean) {
+    async function onSubmit(isValid: boolean) {
 
-        await api.put(`providers/validate-request/${provider.id}`,{})
+        await api.put(`providers/validate-request/${provider.id}`, {})
 
 
         setOpen(false);
@@ -42,12 +39,12 @@ export function CustomDialogEdit({ provider }: DialogProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen} >
             <DialogTrigger asChild>
-                {provider.status==="request_sent" &&     <button className="text-green-600 hover:text-green-500 font-semibold py-2 px-4">
+                {provider.status === "request_sent" && <button className="text-green-600 hover:text-green-500 font-semibold py-2 px-4">
                     Ouvrir le fichier
                 </button>}
-            
+
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Détails du profil du demandeur</DialogTitle>
                     <DialogDescription>
@@ -99,7 +96,7 @@ export function CustomDialogEdit({ provider }: DialogProps) {
                         <span>rejeter</span>
                         <span className="font-bold text-xl">+</span>
                     </Button>
-                    <Button className="bg-primary rounded-3xl w-32 flex justify-between" onClick={()=>onSubmit(true)}>
+                    <Button className="bg-primary rounded-3xl w-32 flex justify-between" onClick={() => onSubmit(true)}>
                         <span>Acceptation</span>
                         <span className="font-bold text-xl">+</span>
                     </Button>

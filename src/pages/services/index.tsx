@@ -1,19 +1,14 @@
-import { Layout } from '@/components/custom/layout'
-import { Search } from '@/components/search'
-import ThemeSwitch from '@/components/theme-switch'
-import { UserNav } from '@/components/user-nav'
-import { DataTable } from './components/data-table'
-import { columns } from './components/columns'
-import { useEffect, useState } from 'react'
-import { useFetch } from '@/hooks/use-fetch'
-import { Card } from '@/components/ui/card'
-import { CustomDialog } from './components/custom-dialog'
-import { IconX } from '@tabler/icons-react'
 import { api } from '@/adapters/api'
+import { Layout } from '@/components/custom/layout'
+import { Card } from '@/components/ui/card'
+import { UserNav } from '@/components/user-nav'
+import { useFetch } from '@/hooks/use-fetch'
+import { IconX } from '@tabler/icons-react'
+import { CustomDialog } from './components/custom-dialog'
 
 export default function Chequebooks() {
 
-  const { data, loading, error } = useFetch(`services`);
+  const { data } = useFetch(`services`);
 
   const onDelete = async (id)=>{
       await api.delete(`services/${id}`)

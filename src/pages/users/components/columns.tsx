@@ -1,10 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-import { DataTableColumnHeader } from './data-table-column-header'
 import { Chequebook } from '../data/schema'
-import { formatDatetime } from "@/lib/utils"
 import { CustomDialog } from './custom-dialog'
-import { PrintButton } from '@/components/print-button'
+import { DataTableColumnHeader } from './data-table-column-header'
 
 
 
@@ -46,7 +44,7 @@ export const columns: CustomColumnDef[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Modifier' />
     ),
-    cell: ({ row }) => <CustomDialog row={row} submitEndPoint={`` } btnTxt='Modifier' />,
+    cell: ({ row }) => <CustomDialog row={row} btnTxt='Modifier' />,
     enableSorting: false,
     enableHiding: false,
     visible: localStorage.getItem("role")==="ROLE_ADMIN",

@@ -1,15 +1,12 @@
 import { Layout } from '@/components/custom/layout'
-import { Search } from '@/components/search'
-import ThemeSwitch from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
-import { DataTable } from './components/data-table'
-import { columns } from './components/columns'
-import { useEffect, useState } from 'react'
 import { useFetch } from '@/hooks/use-fetch'
+import { columns } from './components/columns'
+import { DataTable } from './components/data-table'
 
 export default function Chequebooks() {
-  
-  const {data,loading,error} = useFetch(`companies`);
+
+  const { data, loading, error } = useFetch(`ads`);
 
 
   return (
@@ -31,6 +28,7 @@ export default function Chequebooks() {
           </div>
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
+          <DataTable data={data} columns={columns} />
         </div>
       </Layout.Body>
     </Layout>

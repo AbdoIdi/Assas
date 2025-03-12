@@ -5,11 +5,17 @@ import { Chequebook } from '../data/schema'
 import { formatDatetime } from "@/lib/utils"
 import { CustomDialog } from './custom-dialog'
 import { PrintButton } from '@/components/print-button'
+import { AlertDialogComponent } from '@/components/alert-dialog'
+import { api } from '@/adapters/api'
 
 
 
 type CustomColumnDef = ColumnDef<Chequebook> & {
-      visible?:boolean;
+  visible?: boolean;
+}
+
+const deleteRow = async (id:number,table:any)=>{
+    await api.delete(`offices/${id}`)
 }
 export const columns: CustomColumnDef[] = [
 
@@ -63,9 +69,7 @@ export const columns: CustomColumnDef[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='' className='max-w-12' />
     ),
-    cell: ({ row }) => <button className="text-green-600 hover:text-green-500 font-semibold py-2 px-4">
-    Modifier
-  </button>,
+    cell: ({ row }) => <CustomDialog submitEndPoint='' selectedRow={row.original}/>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -74,9 +78,13 @@ export const columns: CustomColumnDef[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='' className='max-w-12' />
     ),
-    cell: ({ row }) => <button className="text-red-600 hover:text-red-400 font-semibold py-2 px-4">
-    Supprimer
-  </button>,
+    cell: ({ row,table }) => (
+      <AlertDialogComponent handleConfirmed={() => deleteRow(row.original.id,table)}>
+        <button className="text-red-600 hover:text-red-400 font-semibold py-2 px-4">
+          Supprimer
+        </button>
+      </AlertDialogComponent>
+    ),
     enableSorting: false,
     enableHiding: false,
   }

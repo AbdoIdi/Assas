@@ -3,37 +3,31 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
+    DialogTrigger
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
+    FormMessage
 } from "@/components/ui/form"
-import { range } from "@/lib/utils"
+import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
-import { api } from "@/adapters/api"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 import { Switch } from "@/components/ui/switch"
 import { useFetch } from "@/hooks/use-fetch"
@@ -66,19 +60,16 @@ const formSchema = z.object({
 })
 
 interface DialogProps<> {
-    submitEndPoint?: string;
     row?: any;
     btnTxt: string;
 }
 type Checked = DropdownMenuCheckboxItemProps["checked"]
 
-export function CustomDialog({ row, submitEndPoint,btnTxt }: DialogProps) {
+export function CustomDialog({ row,btnTxt }: DialogProps) {
     const [open, setOpen] = useState(false)
     const [dropdownShown, setDropdownShown] = useState(false)
-    const { data, loading, error } = useFetch(`agencies`);
+    const { data, } = useFetch(`agencies`);
     const [showStatusBar, setShowStatusBar] = useState<Checked[]>([])
-    const [showActivityBar, setShowActivityBar] = useState<Checked>(false)
-    const [showPanel, setShowPanel] = useState<Checked>(false)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

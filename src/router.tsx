@@ -26,13 +26,13 @@ const router = createBrowserRouter([
       {
         index: true,
         lazy: async () => ({
-          Component: (await import('@/pages/chequebooks')).default,
+          Component: (await import('@/pages/offices')).default,
         }),
       },
       {
-        path: 'chequebooks',
+        path: 'offices',
         lazy: async () => ({
-          Component: (await import('@/pages/chequebooks/index.tsx')).default,
+          Component: (await import('@/pages/offices/index.tsx')).default,
         }),
       },
       {
@@ -54,9 +54,9 @@ const router = createBrowserRouter([
         }),
       },
       {
-        path: 'ads',
+        path: 'adv',
         lazy: async () => ({
-          Component: (await import('@/pages/ads/index.tsx')).default,
+          Component: (await import('@/pages/adv/index.tsx')).default,
         }),
       }
     ],

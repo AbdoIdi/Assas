@@ -1,15 +1,12 @@
 import { Layout } from '@/components/custom/layout'
-import { Search } from '@/components/search'
-import ThemeSwitch from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
-import { DataTable } from './components/data-table'
-import { columns } from './components/columns'
-import { useEffect, useState } from 'react'
 import { useFetch } from '@/hooks/use-fetch'
+import { columns } from './components/columns'
+import { DataTable } from './components/data-table'
 
 export default function Users() {
   
-  const {data,loading,error} = useFetch(`users`);
+  const {data} = useFetch(`users`);
 
 
   return (

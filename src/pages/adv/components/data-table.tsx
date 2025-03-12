@@ -41,7 +41,6 @@ function GetInVisibleColumn(finalColumnDef: any) {
   for (const item of inVisibleColumns) {
     removedColumn[item.accessorKey] = false;
   }
-
   return removedColumn;
 }
 

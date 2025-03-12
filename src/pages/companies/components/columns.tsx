@@ -1,15 +1,22 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from './data-table-column-header'
-import {  Company } from '../data/schema'
+import { Company } from '../data/schema'
 import { formatDatetime } from "@/lib/utils"
 import { CustomDialog } from './custom-dialog'
 import { PrintButton } from '@/components/print-button'
+import { api } from '@/adapters/api'
+import { AlertDialogComponent } from '@/components/alert-dialog'
 
 
 
 type CustomColumnDef = ColumnDef<Company> & {
-      visible?:boolean;
+  visible?: boolean;
+}
+
+const deleteRow = async (id: number, table: any) => {
+  await api.delete(`companies/${id}`)
+
 }
 export const columns: CustomColumnDef[] = [
 
@@ -49,23 +56,15 @@ export const columns: CustomColumnDef[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: 'adsPages',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Pages des annonces' className='w-32' />
-    ),
-    cell: ({ row }) => <div>{row.getValue('adsPages').replace(";",",")}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
+
   {
     accessorKey: 'edit',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='' className='max-w-12' />
     ),
     cell: ({ row }) => <button className="text-green-600 hover:text-green-500 font-semibold py-2 px-4">
-    Modifier
-  </button>,
+      Modifier
+    </button>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -74,9 +73,13 @@ export const columns: CustomColumnDef[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='' className='max-w-12' />
     ),
-    cell: ({ row }) => <button className="text-red-600 hover:text-red-400 font-semibold py-2 px-4">
-    Supprimer
-  </button>,
+    cell: ({ row, table }) => (
+      <AlertDialogComponent handleConfirmed={() => deleteRow(row.original.id, table)}>
+        <button className="text-red-600 hover:text-red-400 font-semibold py-2 px-4">
+          Supprimer
+        </button>
+      </AlertDialogComponent>
+    ),
     enableSorting: false,
     enableHiding: false,
   }
